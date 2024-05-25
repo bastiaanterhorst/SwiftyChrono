@@ -8,6 +8,7 @@
 
 import XCTest
 import JavaScriptCore
+import SwiftyChrono
 
 class TestES: ChronoJSXCTestCase {
     private let files = [
@@ -24,7 +25,8 @@ class TestES: ChronoJSXCTestCase {
         Chrono.sixMinutesFixBefore1900 = true
         
         for fileName in files {
-            let js = try! String(contentsOfFile: Bundle(identifier: "io.quire.lib.SwiftyChrono")!.path(forResource: fileName, ofType: "js")!)
+            let url = Bundle.module.url(forResource: fileName, withExtension: "js", subdirectory: "Resources")
+            let js = try! String(contentsOf: url!)
             evalJS(js, fileName: fileName)
         }
     }

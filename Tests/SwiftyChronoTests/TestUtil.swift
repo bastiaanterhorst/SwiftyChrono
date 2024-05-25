@@ -8,6 +8,7 @@
 import Foundation
 import XCTest
 import JavaScriptCore
+import SwiftyChrono
 
 extension XCTestCase {
     func ok(_ result: Bool) {
@@ -53,7 +54,7 @@ extension Date {
     /// ATTENTION: this is Javascript compatible init function.
     /// the range of month is between 0 ~ 11
     init(_ year: Int, _ month: Int, _ date: Int = 1, _ hours: Int = 0, _ minutes: Int = 0, _ seconds: Int = 0, _ milliseconds: Int = 0) {
-        let component = DateComponents(calendar: cal, timeZone: TimeZone.current, year: year, month: month + 1, day: date, hour: hours, minute: minutes, second: seconds, nanosecond: millisecondsToNanoSeconds(milliseconds))
+        let component = DateComponents(calendar: Calendar.current, timeZone: TimeZone.current, year: year, month: month + 1, day: date, hour: hours, minute: minutes, second: seconds, nanosecond: milliseconds * 1000000)
         self = component.date ?? Date()
     }
     

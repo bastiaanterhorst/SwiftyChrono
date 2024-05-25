@@ -8,6 +8,7 @@
 
 import XCTest
 import JavaScriptCore
+import SwiftyChrono
 
 public protocol ChronoJSTestable {
     func evalJS(_ script: String, fileName: String)
