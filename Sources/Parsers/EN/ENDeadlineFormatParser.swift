@@ -65,6 +65,7 @@ public class ENDeadlineFormatParser: Parser {
             return ymdResult()
         } else if NSRegularExpression.isMatch(forPattern: "year", in: matchText4) {
             date = number != HALF ? date.added(number, .year) : date.added(6, .month)
+            result.start.imply(.ISOWeek, to: weekNumFor(day: date.day, month: date.month, year: date.year))
             return ymdResult()
         }
         
