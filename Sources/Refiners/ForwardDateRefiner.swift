@@ -21,7 +21,7 @@ class ForwardDateRefiner: Refiner {
         while i < resultsLength {
             var result = results[i]
             var refMoment = result.ref
-            
+                        
             if result.start.isCertain(component: .day) && result.start.isCertain(component: .month) &&
                 !result.start.isCertain(component: .year) && refMoment.isAfter(result.start.moment) {
                 // Adjust year into the future
@@ -53,10 +53,23 @@ class ForwardDateRefiner: Refiner {
                 result.tags[.forwardDateRefiner] = true
             }
             
+            if result.start.isCertain(component: .ISOWeek) && refMoment.isAfter(result.start.moment) {
+                // the requested week number needs to be shifted to the next year
+                result.start.imply(.year, to: result.start[.year]! + 1)
+                
+                // recalculate the day and month corresponding to the new weeknr/year combo
+                let components = DateComponents(weekOfYear: result.start.knownValues[.ISOWeek], yearForWeekOfYear: result.start.impliedValues[.year])
+                let dateFromWeek = Calendar.current.date(from: components) ?? refMoment
+                result.start.imply(.day, to: dateFromWeek.day)
+                result.start.imply(.month, to: dateFromWeek.month)
+                
+                result.tags[.forwardDateRefiner] = true
+            }
+            
             newResults.append(result)
             i += 1
         }
-        
+
         return newResults
     }
 }

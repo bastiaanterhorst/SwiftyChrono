@@ -31,6 +31,7 @@ private func baseOption(strictMode: Bool) -> ModeOptio {
         ENSlashMonthFormatParser(strictMode: strictMode),
         ENTimeAgoFormatParser(strictMode: strictMode),
         ENTimeExpressionParser(strictMode: strictMode),
+        ENWeekNumParser(strictMode: strictMode),
         
         // JP
         JPStandardParser(strictMode: strictMode),

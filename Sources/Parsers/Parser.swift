@@ -75,4 +75,18 @@ public class Parser {
         
         return (matchText, index)
     }
+    
+    final func weekNumFor(day:Int, month: Int, year:Int) -> Int {
+        // first turn the components into a date object
+        let components = NSDateComponents()
+            components.year = year
+            components.month = month
+            components.day = day
+        let date = Calendar.current.date(from: components as DateComponents)
+        
+        // then extract the week number from the date object
+        let weekNum = Calendar.current.component(.weekOfYear, from: date!)
+        
+        return weekNum
+    }
 }

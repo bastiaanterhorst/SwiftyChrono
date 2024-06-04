@@ -39,4 +39,65 @@ class TestEN: ChronoJSXCTestCase {
             evalJS(js, fileName: fileName)
         }
     }
+    
+    func testWeekNumbers() {
+        Chrono.preferredLanguage = .english
+        debugPrint("testing week")
+        let c = Chrono()
+        
+        let now = Date()
+        let startOfWeekDate = Calendar.current.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: now).date!
+        let startOfWeekNum = Calendar.current.component(.weekOfYear, from: now)
+        let startOfWeekYear = Calendar.current.component(.yearForWeekOfYear, from: now)
+        
+        let resultA = c.parseDate(text: "week \(String(startOfWeekNum)) \(startOfWeekYear)")!
+        
+        // fetching the current week
+        XCTAssertEqual(Calendar.current.startOfDay(for: resultA), Calendar.current.startOfDay(for: startOfWeekDate))
+
+        // check if ISOweek is set as known value
+        let resultB = c.parse(text: "week \(String(startOfWeekNum)) \(startOfWeekYear)")
+        XCTAssertEqual(resultB.first?.start.knownValues[.ISOWeek], startOfWeekNum)
+        
+        // check last week -- this test is pretty dumb and will FAIL in the first week of the year!
+        let lastWeekNum = startOfWeekNum - 1
+        let resultC = c.parse(text: "week \(String(lastWeekNum))")
+        // expect the year of the resulting date to be the same as the current year (a week in the past is allowed)
+        XCTAssertEqual(resultC.first?.start.impliedValues[.year], startOfWeekYear)
+        
+        // check last week, this time setting forwardDate to 1
+        let resultD = c.parse(text: "week \(String(lastWeekNum))", opt: [OptionType.forwardDate: 1])
+        // expect the year of the resulting date to equal to next year
+        XCTAssertEqual(resultD.first?.start.impliedValues[.year], startOfWeekYear + 1)
+        
+        // check various ways to refer to 'week', and different ways to include the year
+        let resultE = c.parse(text: "wk \(String(startOfWeekNum)) \(startOfWeekYear)")
+        XCTAssertEqual(resultE.first?.start.knownValues[.ISOWeek], startOfWeekNum)
+        
+        let resultEA = c.parse(text: "wk \(String(startOfWeekNum)) \(String(startOfWeekYear).suffix(2)))")
+        XCTAssertEqual(resultEA.first?.start.knownValues[.ISOWeek], startOfWeekNum)
+        
+        let resultEB = c.parse(text: "wk \(String(startOfWeekNum)) '\(String(startOfWeekYear).suffix(2)))")
+        XCTAssertEqual(resultEB.first?.start.knownValues[.ISOWeek], startOfWeekNum)
+        
+        // check if isoweek is set as implied value when requesting a month "June"
+        let resultF = c.parse(text: "June")
+        XCTAssertNotNil(resultF.first?.start.impliedValues[.ISOWeek])
+        
+        // check if isoweek is set as implied value when requesting relative date: "in 2 weeks/months" / "next week/month"
+        let resultG = c.parse(text: "in 2 months")
+        XCTAssertNotNil(resultG.first?.start.impliedValues[.ISOWeek])
+        
+        let resultGA = c.parse(text: "in 2 weeks")
+        XCTAssertNotNil(resultGA.first?.start.impliedValues[.ISOWeek])
+        
+        let resultGB = c.parse(text: "next month")
+        XCTAssertNotNil(resultGB.first?.start.impliedValues[.ISOWeek])
+        
+        let resultGC = c.parse(text: "next week")
+        XCTAssertNotNil(resultGC.first?.start.impliedValues[.ISOWeek])
+
+        let resultGD = c.parse(text: "next year")
+        XCTAssertNotNil(resultGD.first?.start.impliedValues[.ISOWeek])
+    }
 }

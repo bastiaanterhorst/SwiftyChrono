@@ -176,7 +176,7 @@ public struct ParsedComponents {
 }
 
 public enum ComponentUnit {
-    case year, month, day, hour, minute, second, millisecond, weekday, timeZoneOffset, meridiem
+    case year, month, day, hour, minute, second, millisecond, weekday, timeZoneOffset, meridiem, ISOWeek
 }
 
 public enum TagUnit { case
