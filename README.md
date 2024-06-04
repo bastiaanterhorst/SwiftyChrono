@@ -1,12 +1,10 @@
 ## SwiftyChrono
 
-A natural language date parser in Swift, designed to extract date information from any given text.
+A natural language date parser in Swift, designed to extract date information from any given text. This package is a fork of [Quire's fork](https://github.com/quire-io/SwiftyChrono) of the OG [Chrono.js](https://github.com/wanasit/chrono).
 
-This is a Swift Package version of the original port made by [Quire](https://quire.io).
- 
----
-
-When we were [integrating Siri](https://quire.io/blog/p/Quire-Siri-Best-Task-Manager-Friend.html) with our [iOS app](https://itunes.apple.com/us/app/quire-task-manager-for-teams/id1095193897?mt=8), we found that JavascriptCore runtime is running on resource-limited extensions and will crash due to memory limitation. So, we created a Swift version. Thanks to Wanasit Tanakitrungruang's [chrono.js](https://github.com/wanasit/chrono).
+Changes from Quire's fork:
+* Distributed as a Swift package
+* Support for parsing week numbers ("week 12", "week 24 '26", etc.)
 
 SwiftyChrono supports most date and time formats, such as:
 * Today, Tomorrow, Yesterday, Last Friday, etc
@@ -18,10 +16,6 @@ SwiftyChrono supports most date and time formats, such as:
 
 There are more available patterns. You can simply download it and try.
 
-### Status
-
-This project is currently being used in the [Quire](https://quire.io) iOS app.
-
 ### Requirements
 
 Swift 4.2
@@ -29,22 +23,14 @@ Swift 4.2
 * Swift 4.2
 
 Swift 3
-* iOS 9.0+ | macOS 10.10+ | tvOS 9.0+ | watchOS 2.0+
+* iOS 9.0+ | macOS 10.12+ | tvOS 9.0+ | watchOS 2.0+
 * Xcode 8
 * Swift 3.0
 * 64 bit device (didn't test on 32 bit device)
 
 ### Install
 
-CocoaPods
-
-```ruby
-use_frameworks!
-
-target 'MyApp' do
-	pod 'SwiftyChrono'
-end
-```
+Open Swift Package Manager and drop the URL to this repo in the search bar. Click install.
 
 ### Usage
 
@@ -129,7 +115,3 @@ Chrono.defaultImpliedMillisecond = 1
 chrono.parseDate(text: "you can do it tomorrow", refDate: refDate)?.timeIntervalSince1970
 // 1485968461.001, 2017/2/1 01:01:01.001
 ```
-
-### Demo Video
-
-[![Everything Is AWESOME](https://img.youtube.com/vi/f5PKHumpwsE/0.jpg)](https://www.youtube.com/watch?v=f5PKHumpwsE "Talk to Siri to Add Tasks")
