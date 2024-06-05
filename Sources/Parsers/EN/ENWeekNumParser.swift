@@ -7,19 +7,11 @@
 
 import Foundation
 
-//private let PATTERN = "(\\W|^)" +
-//"(week|wk)\\s*" +
-//"(\(EN_INTEGER_WORDS_PATTERN)|[0-9]){1}\\s*" +
-//"(\(EN_INTEGER_WORDS_PATTERN)|[0-9])?\\s*" +
-//"(?=\\W|$)"
-
 private let PATTERN = "(\\W|^)" +
 "(week|wk)\\s*" +
 "([0-9]+)\\s*" +
 "'?([0-9]+)?\\s*" +
 "(?=\\W|$)"
-
-//private let PATTERN = "^week|wk\\s*(\\d+)\\s*(\\d+)?"
 
 public class ENWeekNumParser: Parser {
     override var pattern: String { return PATTERN }
@@ -27,7 +19,7 @@ public class ENWeekNumParser: Parser {
     override public func extract(text: String, ref: Date, match: NSTextCheckingResult, opt: [OptionType: Int]) -> ParsedResult? {
         let (matchText, index) = matchTextAndIndex(from: text, andMatchResult: match)
         var result = ParsedResult(ref: ref, index: index, text: matchText)
-        
+
         let refMoment = ref
         var startMoment = refMoment
         let lowerText = matchText.lowercased()
@@ -58,11 +50,7 @@ public class ENWeekNumParser: Parser {
         
         result.start.imply(.day, to: dateFromWeek.day)
         result.start.imply(.month, to: dateFromWeek.month)
-        
-        
-        // TODO: set implied values for month and day based on the known or implied year
-        // do this by calculating the date for the week
-        
+
         result.tags[.enCasualDateParser] = true
         return result
     }

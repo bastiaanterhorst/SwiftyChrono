@@ -33,6 +33,10 @@ private func baseOption(strictMode: Bool) -> ModeOptio {
         ENTimeExpressionParser(strictMode: strictMode),
         ENWeekNumParser(strictMode: strictMode),
         
+        // NL
+        NLDeadlineFormatParser(strictMode: strictMode),
+        NLMonthNameLittleEndianParser(strictMode: strictMode),
+        
         // JP
         JPStandardParser(strictMode: strictMode),
         
@@ -76,8 +80,8 @@ private func baseOption(strictMode: Bool) -> ModeOptio {
         FRMergeDateRangeRefiner(),
         FRMergeDateTimeRefiner(),
         JPMergeDateRangeRefiner(),
-        DEMergeDateTimeRefiner(),
         DEMergeDateRangeRefiner(),
+        NLMergeDateTimeRefiner(),
         
         // Extract additional info later
         ExtractTimezoneOffsetRefiner(),
@@ -100,6 +104,10 @@ public func casualModeOption() -> ModeOptio {
         ENCasualDateParser(strictMode: false),
         ENWeekdayParser(strictMode: false),
         ENRelativeDateFormatParser(strictMode: false),
+        
+        // NL
+        NLCasualDateParser(strictMode: false),
+        NLRelativeDateFormatParser(strictMode: false),
         
         // JP
         JPCasualDateParser(strictMode: false),
@@ -124,5 +132,5 @@ public func casualModeOption() -> ModeOptio {
 }
 
 public enum Language {
-    case english, spanish, french, japanese, german, chinese
+    case english, spanish, french, japanese, german, chinese, dutch
 }
