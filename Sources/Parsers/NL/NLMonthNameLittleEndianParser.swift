@@ -10,16 +10,14 @@
 import Foundation
 
 private let PATTERN = "(\\W|^)" +
-    "(zondag|maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zo|ma|di|wo|do|vr|za)?\\s*" +
     "([0-9]{1,2})?\\s*" +
-    "(\(NL_MONTH_OFFSET_PATTERN))?\\s*" +
+    "(\(NL_MONTH_OFFSET_PATTERN))\\s*" +
     "'?([0-9]+)?\\s*" +
     "(?=\\W|$)"
 
-private let weekdayGroup = 2
-private let dateGroup = 3
-private let monthNameGroup = 4
-private let yearGroup = 5
+private let dateGroup = 2
+private let monthNameGroup = 3
+private let yearGroup = 4
 
 public class NLMonthNameLittleEndianParser: Parser {
     override var pattern: String { return PATTERN }
@@ -29,7 +27,7 @@ public class NLMonthNameLittleEndianParser: Parser {
         let (matchText, index) = matchTextAndIndex(from: text, andMatchResult: match)
         var result = ParsedResult(ref: ref, index: index, text: matchText)
         let lowerText = matchText.lowercased()
-        
+
         // passed a month
         if match.range(at: monthNameGroup).location != NSNotFound {
             let a = match.string(from: text, atRangeIndex: monthNameGroup).lowercased()
@@ -57,25 +55,12 @@ public class NLMonthNameLittleEndianParser: Parser {
             // year is implied
             result.start.imply(.year, to: ref.year)
         }
-             
-        // Weekday component
-        if match.isNotEmpty(atRangeIndex: weekdayGroup) {
-            let weekday = NL_WEEKDAY_OFFSET[match.string(from: text, atRangeIndex: weekdayGroup).lowercased()]!
-            result.start.assign(.weekday, value: weekday)
-            let components = DateComponents(weekday: weekday + 1)
-            let wdDate = Calendar.current.nextDate(after: ref, matching: components, matchingPolicy: .nextTime)!
-            
-            result.start.imply(.day, to: wdDate.day)
-            result.start.imply(.month, to: wdDate.month)
-            result.start.imply(.year, to: wdDate.year)
-        }
+         
         
         // set week if passed a month
         if match.range(at: monthNameGroup).location != NSNotFound {
             result.start.imply(.ISOWeek, to: weekNumFor(day: result.start[.day]!, month: result.start[.month]!, year: result.start[.year]!))
         }
-        
-
         
         result.tags[.nlMonthNameLittleEndianParser] = true
         return result

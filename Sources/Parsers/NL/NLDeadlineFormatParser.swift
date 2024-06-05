@@ -32,10 +32,7 @@ public class NLDeadlineFormatParser: Parser {
         } else {
             number = Int(numberText)!
         }
-        
-        debugPrint(number)
-        
-        
+
         var date = ref
         let matchText4 = match.string(from: text, atRangeIndex: 4)
         func ymdResult() -> ParsedResult {
@@ -70,7 +67,6 @@ public class NLDeadlineFormatParser: Parser {
         } else if NSRegularExpression.isMatch(forPattern: "seconde|seconden", in: matchText4) {
             date = date.added(Int(number), .second)
         }
-        
         
         result.start.imply(.year, to: date.year)
         result.start.imply(.month, to: date.month)

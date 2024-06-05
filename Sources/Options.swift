@@ -36,6 +36,7 @@ private func baseOption(strictMode: Bool) -> ModeOptio {
         // NL
         NLDeadlineFormatParser(strictMode: strictMode),
         NLMonthNameLittleEndianParser(strictMode: strictMode),
+        NLWeekdayParser(strictMode: strictMode),
         
         // JP
         JPStandardParser(strictMode: strictMode),
