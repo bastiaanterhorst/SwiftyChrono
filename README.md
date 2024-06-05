@@ -5,6 +5,7 @@ A natural language date parser in Swift, designed to extract date information fr
 Changes from Quire's fork:
 * Distributed as a Swift package
 * Support for parsing week numbers ("week 12", "week 24 '26", etc.)
+* Support for Dutch
 
 SwiftyChrono supports most date and time formats, such as:
 * Today, Tomorrow, Yesterday, Last Friday, etc
