@@ -100,6 +100,7 @@ class TestEN: ChronoJSXCTestCase {
         let resultGD = c.parse(text: "next year")
         XCTAssertNotNil(resultGD.first?.start.impliedValues[.ISOWeek])
         
-        let resultH = c.parseDate(text: "this week")
+        let resultH = c.parseDate(text: "This week", opt: [OptionType.forwardDate: 1])
+        XCTAssertEqual(Calendar.current.startOfDay(for: resultH!), Calendar.current.startOfDay(for: startOfWeekDate))
     }
 }
