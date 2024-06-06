@@ -62,6 +62,8 @@ final class NLTests: XCTestCase {
 //        debugPrint(c.parse("volgende maand"), c.parseDate(text: "volgende maand"))
 //        debugPrint(c.parse("vorig jaar"), c.parseDate(text: "vorig jaar"))
         
+//        let resultH = c.parse(text: "deze week")
+//        debugPrint(resultH)
 
     }
     

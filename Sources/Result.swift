@@ -195,6 +195,7 @@ public enum TagUnit { case
     enTimeAgoFormatParser,
     enTimeExpressionParser,
     enWeekdayParser,
+    enThisWeekParser,
     
     esCasualDateParser,
     esDeadlineFormatParser,
@@ -230,6 +231,7 @@ public enum TagUnit { case
     nlMonthNameLittleEndianParser,
     nlSlashDateFormatParser,
     nlWeekdayParser,
+    nlThisWeekParser,
     
     zhHantCasualDateParser,
     zhHantDateParser,
@@ -253,6 +255,7 @@ public enum TagUnit { case
     
     nlMergeDateAndTimeRefiner,
     nlMergeDateRangeRefiner
+    
 }
 
 

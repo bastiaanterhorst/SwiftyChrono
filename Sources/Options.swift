@@ -32,11 +32,13 @@ private func baseOption(strictMode: Bool) -> ModeOptio {
         ENTimeAgoFormatParser(strictMode: strictMode),
         ENTimeExpressionParser(strictMode: strictMode),
         ENWeekNumParser(strictMode: strictMode),
+        ENThisWeekParser(strictMode: strictMode),
         
         // NL
         NLDeadlineFormatParser(strictMode: strictMode),
         NLMonthNameLittleEndianParser(strictMode: strictMode),
         NLWeekdayParser(strictMode: strictMode),
+        NLThisWeekParser(strictMode: strictMode),
         
         // JP
         JPStandardParser(strictMode: strictMode),

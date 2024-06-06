@@ -99,5 +99,7 @@ class TestEN: ChronoJSXCTestCase {
 
         let resultGD = c.parse(text: "next year")
         XCTAssertNotNil(resultGD.first?.start.impliedValues[.ISOWeek])
+        
+        let resultH = c.parseDate(text: "this week")
     }
 }
