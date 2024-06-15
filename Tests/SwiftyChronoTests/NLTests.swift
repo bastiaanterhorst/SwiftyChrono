@@ -36,7 +36,7 @@ final class NLTests: XCTestCase {
         
         //NLDeadlineParser
 //        debugPrint(c.parse(text: "in 2 dagen"))
-//        debugPrint(c.parseDate(text: "in 2 weken"))
+        debugPrint(c.parse(text: "over 2 weken"))
 //        debugPrint(c.parseDate(text: "in 2 maanden"))
 //        debugPrint(c.parseDate(text: "in 2 jaar"))
 //        debugPrint(c.parse("in 2 weken"), c.parseDate(text: "in 2 weken"))

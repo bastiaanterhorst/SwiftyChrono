@@ -35,30 +35,35 @@ public class NLDeadlineFormatParser: Parser {
 
         var date = ref
         let matchText4 = match.string(from: text, atRangeIndex: 4)
-        func ymdResult() -> ParsedResult {
-            result.start.assign(.year, value: date.year)
-            result.start.assign(.month, value: date.month)
-            result.start.assign(.day, value: date.day)
-            return result
-        }
+
         if NSRegularExpression.isMatch(forPattern: "dag|dagen", in: matchText4) {
             date = date.added(number, .day)
-            return ymdResult()
+            result.start.imply(.year, to: date.year)
+            result.start.imply(.month, to: date.month)
+            result.start.assign(.day, value: date.day)
+            return result
         } else if NSRegularExpression.isMatch(forPattern: "week|weken", in: matchText4) {
             date = date.added(number * 7, .day)
-            result.start.imply(.ISOWeek, to: weekNumFor(day: date.day, month: date.month, year: date.year))
-            return ymdResult()
+            result.start.assign(.ISOWeek, value: weekNumFor(day: date.day, month: date.month, year: date.year))
+            result.start.imply(.year, to: date.year)
+            result.start.imply(.month, to: date.month)
+            result.start.imply(.day, to: date.day)
+            return result
         } else if NSRegularExpression.isMatch(forPattern: "maand|maanden", in: matchText4) {
             date = date.added(number, .month)
             result.start.imply(.ISOWeek, to: weekNumFor(day: date.day, month: date.month, year: date.year))
-            return ymdResult()
+            result.start.imply(.year, to: date.year)
+            result.start.assign(.month, value: date.month)
+            result.start.imply(.day, to: date.day)
+            return result
         } else if NSRegularExpression.isMatch(forPattern: "jaar|jaren", in: matchText4) {
             date = date.added(number, .year)
             result.start.imply(.ISOWeek, to: weekNumFor(day: date.day, month: date.month, year: date.year))
-            return ymdResult()
+            result.start.assign(.year, value: date.year)
+            result.start.imply(.month, to: date.month)
+            result.start.imply(.day, to: date.day)
+            return result
         }
-        
-        
         
         if NSRegularExpression.isMatch(forPattern: "uur|uren", in: matchText4) {
             date = date.added(Int(number), .hour)

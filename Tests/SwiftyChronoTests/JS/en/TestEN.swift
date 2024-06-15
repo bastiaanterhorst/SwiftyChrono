@@ -40,6 +40,21 @@ class TestEN: ChronoJSXCTestCase {
         }
     }
     
+    func testMonths() {
+        Chrono.preferredLanguage = .english
+        let c = Chrono()
+        
+        let resultA = c.parse(text: "june")
+        debugPrint(resultA)
+        
+        let resultB = c.parse(text: "june 8")
+        debugPrint(resultB)
+        
+        let resultC = c.parse(text: "in 2 weeks")
+        debugPrint(resultC)
+        
+    }
+    
     func testWeekNumbers() {
         Chrono.preferredLanguage = .english
         debugPrint("testing week")
