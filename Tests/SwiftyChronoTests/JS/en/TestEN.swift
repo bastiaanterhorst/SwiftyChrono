@@ -104,7 +104,7 @@ class TestEN: ChronoJSXCTestCase {
         XCTAssertNotNil(resultG.first?.start.impliedValues[.ISOWeek])
         
         let resultGA = c.parse(text: "in 2 weeks")
-        XCTAssertNotNil(resultGA.first?.start.impliedValues[.ISOWeek])
+        XCTAssertNotNil(resultGA.first?.start.knownValues[.ISOWeek])
         
         let resultGB = c.parse(text: "next month")
         XCTAssertNotNil(resultGB.first?.start.impliedValues[.ISOWeek])
