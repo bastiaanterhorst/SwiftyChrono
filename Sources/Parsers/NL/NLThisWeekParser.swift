@@ -24,16 +24,17 @@ public class NLThisWeekParser: Parser {
         let lowerText = matchText.lowercased()
         
         let week = Calendar.current.component(.weekOfYear, from: refMoment)
-        let year = Calendar.current.component(.yearForWeekOfYear, from: refMoment)
+        let weekYear = Calendar.current.component(.yearForWeekOfYear, from: refMoment)
 
         result.start.assign(.ISOWeek, value: week)
-        result.start.assign(.year, value: year)
+        result.start.assign(.ISOWeekYear, value: weekYear)
         
-        let components = DateComponents(weekOfYear: week, yearForWeekOfYear: year)
+        let components = DateComponents(weekOfYear: week, yearForWeekOfYear: weekYear)
         let dateFromWeek = Calendar.current.date(from: components) ?? ref
         
         result.start.imply(.day, to: dateFromWeek.day)
         result.start.imply(.month, to: dateFromWeek.month)
+        result.start.imply(.year, to: dateFromWeek.year)
 
         result.tags[.enCasualDateParser] = true
         return result

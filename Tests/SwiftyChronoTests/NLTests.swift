@@ -25,6 +25,13 @@ final class NLTests: XCTestCase {
     func testCasual() throws {
         let now = Calendar.current.startOfDay(for: Date())
         
+        let startOfWeekNum = Calendar.current.component(.weekOfYear, from: now)
+        let startOfWeekYear = Calendar.current.component(.yearForWeekOfYear, from: now)
+        let startOfWeekDate = Calendar.current.date(from: DateComponents(weekOfYear: startOfWeekNum, yearForWeekOfYear: startOfWeekYear)) ?? Date.now
+        
+        let resultAA = c.parseDate(text: "deze week")!
+        XCTAssertEqual(Calendar.current.startOfDay(for: resultAA), Calendar.current.startOfDay(for: startOfWeekDate))
+        
         //NLCasualDateParser
 //        // today
 //        let resultA = c.parseDate(text: "vandaag")

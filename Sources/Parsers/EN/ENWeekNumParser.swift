@@ -37,11 +37,11 @@ public class ENWeekNumParser: Parser {
             // pad the year if a shorthand was passed
             yearNumber = yearNumberText.count == 2 ? Int("20" + yearNumberText)! : Int(yearNumberText)!
             
-            result.start.assign(.year, value: yearNumber)
+            result.start.assign(.ISOWeekYear, value: yearNumber)
         } else {
             // year is implied
             yearNumber = ref.year
-            result.start.imply(.year, to: yearNumber)
+            result.start.imply(.ISOWeekYear, to: yearNumber)
         }
         
         // now calculate the actual date of the start of the week, so we can set the implied day and month
@@ -50,6 +50,7 @@ public class ENWeekNumParser: Parser {
         
         result.start.imply(.day, to: dateFromWeek.day)
         result.start.imply(.month, to: dateFromWeek.month)
+        result.start.imply(.year, to: dateFromWeek.year)
 
         result.tags[.enCasualDateParser] = true
         return result
