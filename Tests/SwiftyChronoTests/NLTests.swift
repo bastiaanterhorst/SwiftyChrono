@@ -32,6 +32,10 @@ final class NLTests: XCTestCase {
         let resultAA = c.parseDate(text: "deze week")!
         XCTAssertEqual(Calendar.current.startOfDay(for: resultAA), Calendar.current.startOfDay(for: startOfWeekDate))
         
+
+        
+        
+        
         //NLCasualDateParser
 //        // today
 //        let resultA = c.parseDate(text: "vandaag")

@@ -31,9 +31,10 @@ public class NLMonthNameLittleEndianParser: Parser {
         // passed a month
         if match.range(at: monthNameGroup).location != NSNotFound {
             let a = match.string(from: text, atRangeIndex: monthNameGroup).lowercased()
-            let month = NL_MONTH_OFFSET[a]!
-            result.start.assign(.month, value: month)
-            result.start.imply(.day, to: 1)
+            if let month = NL_MONTH_OFFSET[a] {
+                result.start.assign(.month, value: month)
+                result.start.imply(.day, to: 1)
+            }
         }
         
         // passed a day
