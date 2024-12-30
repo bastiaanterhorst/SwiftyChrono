@@ -65,7 +65,8 @@ class ForwardDateRefiner: Refiner {
                 let currentWeekStart = Calendar.current.date(from: DateComponents(weekOfYear: currentWeek, yearForWeekOfYear: currentWeekYear)) ?? Date.now
                 
                 if resultWeekStart < currentWeekStart {
-                    result.start.imply(.ISOWeekYear, to: result.start[.ISOWeekYear]! + 1)
+                    let yr:Int = result.start[.ISOWeekYear] != nil ? result.start[.ISOWeekYear]! : result.start[.year] != nil ? result.start[.year]! : 2025
+                    result.start.imply(.ISOWeekYear, to: yr + 1)
                     
                     // recalculate the day and month corresponding to the new weeknr/year combo
                     let components = DateComponents(weekOfYear: result.start.knownValues[.ISOWeek], yearForWeekOfYear: result.start.impliedValues[.ISOWeekYear])
