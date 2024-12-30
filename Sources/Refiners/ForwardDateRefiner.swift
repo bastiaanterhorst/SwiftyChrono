@@ -53,17 +53,31 @@ class ForwardDateRefiner: Refiner {
                 result.tags[.forwardDateRefiner] = true
             }
             
-            if result.start.isCertain(component: .ISOWeek) && !result.start.isCertain(component: .ISOWeekYear) && refMoment.isAfter(result.start.moment) {
-                // the requested week number needs to be shifted to the next year
-                result.start.imply(.year, to: result.start[.year]! + 1)
+            // we the week year is ambiguous we need to check if we should forward refine the year
+            // do this if a week is set and NO weekyear is set
+            // and if the computed start date for the week with this year lies before the current week start date
+            if result.start.isCertain(component: .ISOWeek) && !result.start.isCertain(component: .ISOWeekYear) {
                 
-                // recalculate the day and month corresponding to the new weeknr/year combo
-                let components = DateComponents(weekOfYear: result.start.knownValues[.ISOWeek], yearForWeekOfYear: result.start.impliedValues[.year])
-                let dateFromWeek = Calendar.current.date(from: components) ?? refMoment
-                result.start.imply(.day, to: dateFromWeek.day)
-                result.start.imply(.month, to: dateFromWeek.month)
+                let resultWeekStart = Calendar.current.date(from: DateComponents(weekOfYear: result.start.knownValues[.ISOWeek], yearForWeekOfYear: result.start.impliedValues[.ISOWeekYear])) ?? Date.now
                 
-                result.tags[.forwardDateRefiner] = true
+                let currentWeek = Calendar.current.component(.weekOfYear, from: Date.now)
+                let currentWeekYear = Calendar.current.component(.yearForWeekOfYear, from: Date.now)
+                let currentWeekStart = Calendar.current.date(from: DateComponents(weekOfYear: currentWeek, yearForWeekOfYear: currentWeekYear)) ?? Date.now
+                
+                if resultWeekStart < currentWeekStart {
+                    result.start.imply(.ISOWeekYear, to: result.start[.ISOWeekYear]! + 1)
+                    
+                    // recalculate the day and month corresponding to the new weeknr/year combo
+                    let components = DateComponents(weekOfYear: result.start.knownValues[.ISOWeek], yearForWeekOfYear: result.start.impliedValues[.ISOWeekYear])
+                    let dateFromWeek = Calendar.current.date(from: components) ?? refMoment
+                    result.start.imply(.day, to: dateFromWeek.day)
+                    result.start.imply(.month, to: dateFromWeek.month)
+                    result.start.imply(.year, to: dateFromWeek.year)
+
+                    result.tags[.forwardDateRefiner] = true
+
+                }
+                
             }
             
             newResults.append(result)
