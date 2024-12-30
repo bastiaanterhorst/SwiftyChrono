@@ -71,6 +71,9 @@ class TestEN: ChronoJSXCTestCase {
         // fetching the current week
         XCTAssertEqual(Calendar.current.startOfDay(for: resultA), Calendar.current.startOfDay(for: startOfWeekDate))
 
+        let resultAAX = c.parse(text: "this week")
+
+        
         let resultAA = c.parseDate(text: "this week")!
         XCTAssertEqual(Calendar.current.startOfDay(for: resultAA), Calendar.current.startOfDay(for: startOfWeekDate))
         
