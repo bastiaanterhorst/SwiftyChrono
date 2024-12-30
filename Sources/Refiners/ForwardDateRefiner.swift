@@ -53,7 +53,7 @@ class ForwardDateRefiner: Refiner {
                 result.tags[.forwardDateRefiner] = true
             }
             
-            if result.start.isCertain(component: .ISOWeek) && !result.start.isCertain(component: .year) && refMoment.isAfter(result.start.moment) {
+            if result.start.isCertain(component: .ISOWeek) && !result.start.isCertain(component: .ISOWeekYear) && refMoment.isAfter(result.start.moment) {
                 // the requested week number needs to be shifted to the next year
                 result.start.imply(.year, to: result.start[.year]! + 1)
                 

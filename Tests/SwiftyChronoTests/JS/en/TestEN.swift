@@ -71,10 +71,10 @@ class TestEN: ChronoJSXCTestCase {
         // fetching the current week
         XCTAssertEqual(Calendar.current.startOfDay(for: resultA), Calendar.current.startOfDay(for: startOfWeekDate))
 
-        let resultAAX = c.parse(text: "this week")
+        let resultAAX = c.parse(text: "this week", opt: [OptionType.forwardDate: 1])
 
         
-        let resultAA = c.parseDate(text: "this week")!
+        let resultAA = c.parseDate(text: "this week", opt: [OptionType.forwardDate: 1])!
         XCTAssertEqual(Calendar.current.startOfDay(for: resultAA), Calendar.current.startOfDay(for: startOfWeekDate))
         
         // check if ISOweek is set as known value
